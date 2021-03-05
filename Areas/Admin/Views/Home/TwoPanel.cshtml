@@ -1,0 +1,33 @@
+﻿@model IQueryable<VehicleFleetItem>
+@{
+    string strTitle = "Панель";
+    ViewBag.Title = strTitle;
+}
+
+<div>
+    <br>
+    <h3>Автопарк</h3>
+    <div class="div-box">
+        <a asp-area="Admin" asp-controller="VehicleFleetItems" asp-action="Edit" asp-route-id="">Добавить автомобиль</a>
+    </div>
+    @if (Model.Any())
+    {
+        <div>
+            @foreach (VehicleFleetItem entity in Model)
+            {
+                <div>
+                    <a asp-area="Admin" asp-controller="VehicleFleetItems" asp-action="Edit" asp-route-id="@entity.Id">редактировать</a>
+                    |
+                    <form style="display: inline-block;" id="form-@entity.Id" asp-area="Admin" asp-controller="VehicleFleetItems" asp-action="Delete" method="post">
+                        <input type="hidden" name="id" value="@entity.Id">
+                        <a href="#" onclick="document.getElementById('form-@entity.Id').submit();">удалить</a>
+                    </form>
+                    |
+                    <a asp-area="" asp-controller="Home" asp-action="Garage" asp-route-id="@entity.Id">
+                        @($"{entity.Title}")
+                    </a>
+                </div>
+            }
+        </div>
+    }
+</div>
